@@ -313,7 +313,7 @@ def generate_ssh_key():
 
 
 @click.group()
-@click.version_option("1.5.2", prog_name="vks-bootstraper")
+@click.version_option("1.6.0", prog_name="vks-bootstraper")
 def cli():
     pass
 
