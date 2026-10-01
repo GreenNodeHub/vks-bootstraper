@@ -26,9 +26,16 @@ _The simple CLI tool to bootstrap instances of VKS workload clusters_
   python3 -m build
   twine check dist/*
   ```
-  ...or to Binary:
+  ...or to Binary _(PyInstaller cannot cross-compile, the binary targets the architecture of the build machine)_:
   ```bash
-  pyinstaller --onefile --paths=/home/$USER/anaconda3/envs/vks-bootstraper/lib/python3.10/site-packages:/home/$USER/anaconda3/envs/vks-bootstraper/lib/python310.zip:/home/$USER/anaconda3/envs/vks-bootstraper/lib/python3.10:/home/$USER/anaconda3/envs/vks-bootstraper/lib/python3.10/lib-dynload:/home/$USER/.local/lib/python3.10/site-packages ./vks-bootstraper.py
+  pip3 install --upgrade pyinstaller
+  cd vks_bootstraper
+  pyinstaller --clean --noconfirm vks-bootstraper.spec   # output: vks_bootstraper/dist/vks-bootstraper
+  ```
+
+- Release the Linux binaries _(`amd64` and `arm64`)_: push a `v*` tag, the [release workflow](.github/workflows/release.yml) builds both on native GitHub runners and attaches `vks-bootstraper-linux-amd64`, `vks-bootstraper-linux-arm64` and `sha256sums.txt` to the GitHub release
+  ```bash
+  git tag vX.Y.Z && git push origin vX.Y.Z
   ```
   
 - Publish the CLI to PyPi _(make sure you have configured the `$HOME/.pypirc` config file, refer this [section](#the-pypirc-config-file) to pre-configure before performing this step)_
